@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>汽车系统动力学知识图谱</title>
+    
+    <!-- 第三方库 -->
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <!-- CSS模块 -->
+    <link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/control-panel.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/search.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/node-info.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/utils.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- 页面标题 -->
+    <div class="main-title">汽车系统动力学知识图谱</div>
+    <div class="title-label">第三章：充气轮胎动力学</div>
+
+    <!-- 主容器 -->
+    <div id="container">
+        <!-- 控制面板 -->
+        <div class="control-panel">
+            <div class="search-wrapper">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="搜索节点...">
+                    <div id="searchResults" class="searchresults"></div>
+                </div>
+                <div class="search-stats" id="searchStats"></div>
+            </div>
+        </div>
+        
+        <!-- 图谱容器 -->
+        <div id="graph"></div>
+        
+        <!-- 节点信息面板 -->
+        <div id="nodeInfo" class="node-info"></div>
+    </div>
+    <script type="module" src="{{ url_for('static', filename='js/config.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/networkManager.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/searchManager.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/nodeInfoManager.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/eventManager.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Neo4j 节点和关系管理</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --hover-color: #45a049;
+            --bg-color: #f8f9fa;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg-color);
+            line-height: 1.6;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #444;
+            margin: 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* 修改搜索容器和相关样式 */
+        .search-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 30px auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        .search-box {
+            width: 85%;
+            max-width: 900px;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            margin-bottom: 15px; /* 添加底部间距 */
+        }
+        
+        .search-button {
+            width: 200px; /* 固定按钮宽度 */
+            padding: 12px 30px;
+            font-size: 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+
+        .search-button:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-1px);
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .search-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .search-button {
+                width: 50%;
+                min-width: auto;
+            }
+        }
+        
+        /* 表单按钮样式 */
+        .form-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .form-button:hover {
+            background-color: var(--hover-color);
+        }
+        
+
+        .form-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            width: 90%;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 10px 12px;
+            font-size: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--hover-color);
+        }
+
+        @media (max-width: 768px) {
+            .search-box {
+                width: 90%;
+            }
+
+            .form-container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .input-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>汽车系统动力学知识图谱管理系统</h1>
+
+<!-- 搜索框和按钮的HTML结构 -->
+<div class="search-container">
+    <form action="{{ url_for('search') }}" method="post" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+        <input type="text" name="search_term" class="search-box" 
+               placeholder="请输入节点名称或关系类型进行搜索..." required>
+        <button type="submit" class="search-button">搜索</button>
+    </form>
+</div>
+
+    <!-- 添加节点和关系的表单 -->
+    <div class="form-container">
+        <h2>添加节点和关系</h2>
+        <form action="{{ url_for('add_nodes_relationship') }}" method="post">
+            <div class="input-group">
+                <input type="text" name="node1_name" placeholder="节点1名称" required>
+                <input type="text" name="node1_label" placeholder="节点1标签" required>
+            </div>
+            <div class="input-group">
+                <input type="text" name="relationship" placeholder="关系类型" required>
+            </div>
+            <div class="input-group">
+                <input type="text" name="node2_name" placeholder="节点2名称" required>
+                <input type="text" name="node2_label" placeholder="节点2标签" required>
+            </div>
+            <button type="submit" class="form-button">添加节点和关系</button>
+        </form>
+
+        <!-- 添加节点属性的表单 -->
+        <h2>添加/修改节点属性</h2>
+        <form action="{{ url_for('add_node_property') }}" method="post">
+            <div class="input-group">
+                <input type="text" name="node_name" placeholder="节点名称" required>
+                <input type="text" name="node_label" placeholder="节点标签" required>
+                <input type="text" name="definition" placeholder="定义内容" required>
+            </div>
+            <button type="submit" class="form-button">添加/修改节点</button>
+        </form>
+    </div>
+</body>
+</html>

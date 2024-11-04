@@ -1,0 +1,71 @@
+/* Utility classes for margin */
+.m-0 {
+    margin: 0;
+}
+
+.mt-1 {
+    margin-top: 0.25rem;
+}
+
+.mb-1 {
+    margin-bottom: 0.25rem;
+}
+
+.ml-1 {
+    margin-left: 0.25rem;
+}
+
+.mr-1 {
+    margin-right: 0.25rem;
+}
+
+/* Utility classes for padding */
+.p-0 {
+    padding: 0;
+}
+
+.pt-1 {
+    padding-top: 0.25rem;
+}
+
+.pb-1 {
+    padding-bottom: 0.25rem;
+}
+
+.pl-1 {
+    padding-left: 0.25rem;
+}
+
+.pr-1 {
+    padding-right: 0.25rem;
+}
+
+/* Utility classes for text alignment */
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* Utility classes for display */
+.d-block {
+    display: block;
+}
+
+.d-inline {
+    display: inline;
+}
+
+.d-inline-block {
+    display: inline-block;
+}
+
+.d-none {
+    display: none;
+}

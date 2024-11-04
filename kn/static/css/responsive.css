@@ -1,0 +1,22 @@
+@media (max-width: 768px) {
+    .control-panel {
+        width: 90%;
+        right: 50%;
+        transform: translateX(50%);
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+
+    .node-info {
+        right: 50%;
+        transform: translate(50%, -50%) translateY(100%);
+        width: 90%;
+        
+    }
+
+    .node-info.visible {
+        transform: translate(50%, -50%) translateY(0);
+    }
+}
