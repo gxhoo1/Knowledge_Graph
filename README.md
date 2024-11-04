@@ -39,7 +39,7 @@ G --> H{neo4j数据库}
 
 graph LR
 A[neo4j数据库] -->B(后端:Python)
-A --> C(前端:css,html)
+A --> C(前端:js,css,html)
 B -->D[网页]
 C -->D[网页]
 D -->E[服务器]
