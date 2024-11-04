@@ -1,16 +1,26 @@
 # 汽车系统动力学知识图谱
 
-本系统以知识图谱技术为基础，实现对汽车系统动力学课程建立知识图谱，主要实现知识点与关系提取清洗、知识点信息更新、知识点搜索、知识化可视化界面等功能，分为服务器端和客户端两种用户。 服务器端可以在网站后台对节点与关系管理，用户通过Web界面在客户端自由查看与检索信息。
+本系统以知识图谱技术为基础，实现对汽车系统动力学课程建立知识图谱，主要实现知识点与关系提取清洗、知识点信息更新、知识点搜索、知识可视化界面等功能，分为服务器端和客户端两种用户。 服务器端可以在网站后台对节点与关系管理，用户通过Web界面在客户端自由查看与检索信息。
 <p>
     <a href="https://www.anaconda.com/products/individual#Downloads"><img src="https://img.shields.io/badge/Anaconda3-24.9.2-44a833?logo=anaconda&style=flat" alt="Anaconda3"/></a>
     <a href="https://www.python.org/downloads/windows/"><img src="https://img.shields.io/badge/Python-3.12.7-3975a5?logo=python&style=flat" alt="Python"/></a>
 <img src="https://img.shields.io/badge/Neo4j-5.25.1-6dce9d?logo=neo4j&style=flat" alt="Neo4j"/></a>
+
+
+- [x] 图谱可视化
+- [x] 后台管理系统
+- [x] 基本用户交互
+- [x] 关键字检索
+- [ ] 多层级网页
+- [ ] 智能问答
+
    
 ## Demo
 
 客户端网站：<https://kntongji.top>（建议使用电脑浏览器） \
 服务端网站：<https://admin.kntongji.top>\
 数据清洗工具：<https://convert.kntongji.top>
+
 
 
 
@@ -39,10 +49,10 @@ D -->E[服务器]
 ```powershell
 文件夹介绍
 
-convert  数据转换工具
-kn       图谱网站
-edit_kn  知识修改更新工具
-data     资料
+/convert  数据转换工具
+/kn       图谱网站
+/edit_kn  知识修改更新工具
+/data     资料
 ```
 
 ## 1.数据提取与清洗
