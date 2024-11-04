@@ -6,7 +6,7 @@ import re
 app = Flask(__name__)
 
 # OpenAI配置
-openai.api_key = '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'
+openai.api_key = 'api秘钥'
 
 # Neo4j配置
 
