@@ -2,24 +2,29 @@ from flask import Flask, render_template, request, jsonify
 from neo4j import GraphDatabase
 import openai
 import re
+import json
+from datetime import datetime
 
 app = Flask(__name__)
 
 # OpenAI配置
-openai.api_key = 'api秘钥'
+openai.api_key = 'sk-proj'
 
 # Neo4j配置
 
-NEO4J_URI = "neo4j://38.60.163.201:7687"
-NEO4J_USER = "neo4j"
-NEO4J_PASSWORD = "11223344"
+#NEO4J_URI = "neo4j://38.60.163.201:7687"
+NEO4J_URI = "bolt://localhost:7687"
+NEO4J_USER = "123"
+NEO4J_PASSWORD = "123"
+
+HISTORY_FILE = 'history.json'
 
 def convert_to_triples(text):
     response = openai.ChatCompletion.create(
         model='gpt-4o',
         messages=[
-            {"role": "system", "content": "将以下内容转换为 节点1（节点1的label）-关系-节点（节点2的label） 格式"},
-            {"role": "user", "content": f"内容: {text}\n结果为三元组，格式为: 节点1（节点1的label）-关系-节点（节点2的label），节点的名称和label使用科学术语，严格按照格式输出，不要加其他任何文字，注意节点的名称不要重复，将相同名称但不同label的节点合并，并选择最合适的label，节点的label不要过于具体，不要出现太多不同的label"}
+            {"role": "system", "content": "将以下内容转换为 节点1（节点1的标签）-关系-节点（节点2的标签） 格式"},
+            {"role": "user", "content": f"内容: {text}\n结果为三元组，格式为: 节点1（节点1的标签）-关系-节点（节点2的标签），节点的名称和标签使用科学术语，严格按照格式输出，不要加其他任何文字，注意节点的名称不要重复，将相同名称但不同标签的节点合并，并选择最合适的标签，节点的标签不要过于具体，不要出现太多不同的标签"}
         ]
     )
     return response.choices[0].message['content'].strip()
@@ -50,6 +55,22 @@ def import_to_neo4j(triples):
 
     driver.close()
 
+def save_history(input_text, result):
+    try:
+        with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
+            history_data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        history_data = []
+
+    history_data.append({
+        'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'input_text': input_text,
+        'result': result
+    })
+
+    with open(HISTORY_FILE, 'w', encoding='utf-8') as f:
+        json.dump(history_data, f, ensure_ascii=False, indent=4)
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -59,6 +80,7 @@ def convert():
     input_text = request.json['text']
     try:
         result = convert_to_triples(input_text)
+        save_history(input_text, result)
         return jsonify({'success': True, 'result': result})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
@@ -73,4 +95,4 @@ def import_to_graph():
         return jsonify({'success': False, 'error': str(e)})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000, host='0.0.0.0')
