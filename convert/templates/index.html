@@ -1,4 +1,3 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +6,25 @@
     <style>
         .text-area {
             min-height: 600px;
+        }
+        body {
+            overflow-y: auto;
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
         }
     </style>
 </head>
@@ -33,10 +51,25 @@
         <div class="text-center mt-4">
             <button id="importNeo4jBtn" class="btn btn-success">导入到Neo4j</button>
         </div>
+
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">加载中...</span>
+            </div>
+        </div>
     </div>
 
     <script>
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+
         document.getElementById('convertBtn').onclick = async () => {
+            showLoading();
             const inputText = document.getElementById('inputText').value;
             
             try {
@@ -56,10 +89,13 @@
                 }
             } catch (error) {
                 alert('请求失败：' + error);
+            } finally {
+                hideLoading();
             }
         };
 
         document.getElementById('importNeo4jBtn').onclick = async () => {
+            showLoading();
             const triples = document.getElementById('outputText').value;
             
             try {
@@ -79,6 +115,8 @@
                 }
             } catch (error) {
                 alert('请求失败：' + error);
+            } finally {
+                hideLoading();
             }
         };
     </script>
